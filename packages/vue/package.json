@@ -1,0 +1,48 @@
+{
+  "name": "@issueflow/vue",
+  "version": "0.2.0",
+  "description": "Vue.js adapter for IssueFlow feedback widgets",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c --watch", 
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@issueflow/sdk": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": ">=3.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-commonjs": "^25.0.5",
+    "rollup": "^4.1.4",
+    "rollup-plugin-vue": "^6.0.0",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6",
+    "vue": "^3.3.4"
+  },
+  "keywords": [
+    "issueflow",
+    "vue",
+    "feedback",
+    "widget",
+    "components"
+  ],
+  "author": "Paulo Sánchez <yosnap@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yosnap/issueflow.git",
+    "directory": "packages/vue"
+  }
+}

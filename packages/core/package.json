@@ -1,0 +1,57 @@
+{
+  "name": "@issueflow/core",
+  "version": "0.2.0",
+  "description": "IssueFlow core framework with multi-tenant architecture",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "dev": "tsx watch src/index.ts",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "fastify": "^4.24.3",
+    "fastify-plugin": "^4.5.1",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/cors": "^8.4.0",
+    "@fastify/rate-limit": "^9.1.0",
+    "@fastify/jwt": "^7.2.4",
+    "@fastify/oauth2": "^7.8.0",
+    "pg": "^8.11.3",
+    "ioredis": "^5.3.2",
+    "bullmq": "^4.15.4",
+    "zod": "^3.22.4",
+    "winston": "^3.11.0",
+    "nanoid": "^4.0.2",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/pg": "^8.10.7",
+    "@types/bcryptjs": "^2.4.6",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2",
+    "tsc-alias": "^1.8.8",
+    "vitest": "^0.34.6"
+  },
+  "keywords": [
+    "issueflow",
+    "framework",
+    "multi-tenant",
+    "fastify",
+    "typescript"
+  ],
+  "author": "Paulo Sánchez <yosnap@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yosnap/issueflow.git",
+    "directory": "packages/core"
+  }
+}

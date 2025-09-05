@@ -1,0 +1,47 @@
+{
+  "name": "@issueflow/nextjs",
+  "version": "0.2.0",
+  "description": "Next.js integration for IssueFlow feedback widgets",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@issueflow/react": "workspace:*",
+    "@issueflow/sdk": "workspace:*"
+  },
+  "peerDependencies": {
+    "next": ">=13.0.0",
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.25",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6",
+    "next": "^14.0.0",
+    "react": "^18.2.0"
+  },
+  "keywords": [
+    "issueflow",
+    "nextjs",
+    "react",
+    "feedback",
+    "integration"
+  ],
+  "author": "Paulo Sánchez <yosnap@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yosnap/issueflow.git",
+    "directory": "packages/nextjs"
+  }
+}
