@@ -1,209 +1,344 @@
-# 🚀 IssueFlow
+# IssueFlow Framework
 
-> **Framework open-source que conecta clientes no-técnicos directamente con tu workflow de desarrollo, automatizando todo el ciclo desde reporte hasta resolución.**
+<div align="center">
 
-[![Version](https://img.shields.io/npm/v/@issueflow/core?style=flat-square)](https://www.npmjs.com/package/@issueflow/core)
-[![Downloads](https://img.shields.io/npm/dm/@issueflow/core?style=flat-square)](https://www.npmjs.com/package/@issueflow/core)
-[![License](https://img.shields.io/github/license/issueflow/issueflow?style=flat-square)](LICENSE)
-[![Discord](https://img.shields.io/discord/YOUR_DISCORD_ID?style=flat-square&logo=discord)](https://discord.gg/issueflow)
+![IssueFlow Logo](https://via.placeholder.com/200x200?text=IssueFlow)
 
-## ✨ ¿Qué es IssueFlow?
+**Sistema completo de gestión de feedback y tracking de issues para aplicaciones web modernas**
 
-IssueFlow resuelve el caos de comunicación post-entrega que enfrentan developers y agencias:
+[![npm version](https://img.shields.io/npm/v/@issueflow/sdk?style=flat-square)](https://npmjs.com/package/@issueflow/sdk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg?style=flat-square)](http://www.typescriptlang.org/)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/issueflow/issueflow/ci.yml?style=flat-square)](https://github.com/issueflow/issueflow/actions)
+[![Discord](https://img.shields.io/discord/1234567890?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/issueflow)
 
-### ❌ **Antes**
-```
-Cliente: "El botón no funciona" (email)
-Developer: Crear GitHub issue manualmente
-Developer: Crear ClickUp task manualmente  
-Developer: Email al cliente cuando esté listo
-🔄 Repetir para cada cliente...
-```
+[Documentación](./docs) • [Demo](https://demo.issueflow.dev) • [Discord](https://discord.gg/issueflow)
 
-### ✅ **Con IssueFlow**
+</div>
+
+## 🚀 ¿Qué es IssueFlow?
+
+IssueFlow es un framework completo y moderno para la gestión de feedback de usuarios y tracking de issues en aplicaciones web. Diseñado para ser **framework-agnostic**, ofrece adapters nativos para los principales frameworks de frontend.
+
+### ✨ Características Principales
+
+- 🎯 **Multi-Framework**: Adapters para Vue, React/Next.js, Angular, Svelte
+- 🔧 **Plug & Play**: Configuración mínima, máxima funcionalidad
+- 🎨 **Totalmente Personalizable**: Temas, estilos y comportamientos
+- 📱 **Responsive**: Optimizado para desktop y móvil
+- 🌐 **SSR Ready**: Soporte nativo para renderizado del lado del servidor
+- 🔒 **Seguro**: Validación robusta y protección CSRF
+- ♿ **Accesible**: Cumplimiento WCAG 2.1
+- 🧪 **Testeado**: Suite completa de tests automatizados
+- 📊 **Analytics**: Métricas detalladas de feedback
+- 🌍 **i18n Ready**: Preparado para internacionalización
+
+## 📦 Instalación Rápida
+
+### Core SDK
 ```bash
-issueflow init  # Una sola vez
-# Todo automatizado ✨
+npm install @issueflow/sdk
 ```
 
-## 🎯 **Setup en 5 minutos**
+### Adapters por Framework
 
+#### Vue 3
 ```bash
-# 1. Instalar CLI
-npm install -g @issueflow/cli
-
-# 2. Autenticarse
-issueflow auth login
-
-# 3. Configurar proyecto
-cd mi-proyecto-cliente
-issueflow init
+npm install @issueflow/vue
 ```
 
-**Setup interactivo:**
-```
-? Stack del proyecto: › 
-  ❯ Next.js + React
-    Vue + Nuxt  
-    Astro
-    WordPress
-    
-? GitHub repo: › mi-usuario/proyecto-cliente
-? ClickUp workspace: › [auto-detectado]
-✅ ¡Configurado! Portal: https://issues.micliente.com
+#### Next.js
+```bash
+npm install @issueflow/nextjs
 ```
 
-## 🔧 **Integración por Framework**
-
-### React + Next.js
-```tsx
-import { IssueFlowTrigger } from '@issueflow/nextjs'
-
-export function App() {
-  return (
-    <div>
-      {/* Tu app */}
-      <IssueFlowTrigger 
-        projectId="proj_abc123"
-        position="bottom-right"
-      />
-    </div>
-  )
-}
+#### Angular 15+
+```bash
+npm install @issueflow/angular
 ```
 
-### Vue + Nuxt
+#### Svelte 4+
+```bash
+npm install @issueflow/svelte
+```
+
+## 🏁 Inicio Rápido
+
+### Vue 3
 ```vue
 <template>
   <div>
     <!-- Tu app -->
-    <IssueFlowWidget project-id="proj_abc123" />
+    <IssueFlowWidget :config="config" />
   </div>
 </template>
+
+<script setup>
+import { IssueFlowWidget } from '@issueflow/vue'
+
+const config = {
+  projectId: 'tu-proyecto-id',
+  apiUrl: 'https://api.tu-dominio.com/issueflow'
+}
+</script>
 ```
 
-### Astro
-```astro
----
-import { IssueFlowForm } from '@issueflow/astro'
----
-<IssueFlowForm projectId="proj_abc123" client:load />
+### Next.js
+```tsx
+import { IssueFlowProvider, IssueFlowWidget } from '@issueflow/nextjs'
+
+export default function App() {
+  const config = {
+    projectId: 'tu-proyecto-id',
+    apiUrl: 'https://api.tu-dominio.com/issueflow'
+  }
+
+  return (
+    <IssueFlowProvider config={config}>
+      <div>
+        {/* Tu app */}
+        <IssueFlowWidget />
+      </div>
+    </IssueFlowProvider>
+  )
+}
 ```
 
-## 🎨 **Casos de Uso**
+### Angular
+```typescript
+// app.module.ts
+import { IssueFlowModule } from '@issueflow/angular'
 
-### 🏢 **Agencias (10+ proyectos)**
-- Dashboard centralizado multi-cliente  
-- White-label completo
-- Automatización GitHub → ClickUp
-- Analytics por proyecto
-
-### 👨‍💻 **Freelancers**
-- Setup 5 minutos
-- Tier gratuito disponible  
-- Imagen profesional
-- Integración cualquier stack
-
-### 🚀 **SaaS Companies**
-- Feedback in-app
-- Analytics de producto
-- Roadmap integration
-- User insights
-
-## 🌟 **Features**
-
-- ⚡ **Setup 5 minutos** - CLI wizard interactivo
-- 🎨 **Multi-framework** - React, Vue, Astro, WordPress, etc.  
-- 🔄 **Auto-sync** - GitHub Issues ↔ ClickUp ↔ Linear
-- 📱 **Client-friendly** - UI simple para no-técnicos
-- 🏷️ **White-label** - Branding personalizado
-- 📊 **Analytics** - Métricas de resolución y satisfacción
-- 🔌 **Extensible** - Plugin system + marketplace
-- 🌍 **Multi-tenant** - Perfecto para agencias
-
-## 📋 **Roadmap**
-
-- [x] **v0.1.0** - Documentación y arquitectura
-- [ ] **v0.2.0** - Core framework + APIs  
-- [ ] **v0.3.0** - React + Vue adapters
-- [ ] **v0.4.0** - CLI tool + templates
-- [ ] **v1.0.0** - Community launch
-- [ ] **v2.0.0** - SaaS hosted version
-
-Ver [roadmap completo](./roadmap.md)
-
-## 🏗️ **Arquitectura**
-
-```
-IssueFlow/
-├── core/                    # Framework core (multi-tenant)
-├── cli/                     # Setup tool
-├── adapters/                # Framework plugins
-│   ├── react/              
-│   ├── vue/
-│   ├── nextjs/
-│   └── astro/
-├── sdk/                     # APIs y SDKs
-├── dashboard/               # Management UI
-└── marketplace/             # Community plugins
+@NgModule({
+  imports: [
+    IssueFlowModule.forRoot({
+      projectId: 'tu-proyecto-id',
+      apiUrl: 'https://api.tu-dominio.com/issueflow'
+    })
+  ]
+})
+export class AppModule { }
 ```
 
-Ver [arquitectura completa](./arquitectura.md)
+```html
+<!-- app.component.html -->
+<div>
+  <!-- Tu app -->
+  <if-widget></if-widget>
+</div>
+```
 
-## 🤝 **Contribuir**
+### Svelte
+```svelte
+<script>
+  import { IssueFlowWidget } from '@issueflow/svelte'
+  
+  const config = {
+    projectId: 'tu-proyecto-id',
+    apiUrl: 'https://api.tu-dominio.com/issueflow'
+  }
+</script>
 
-¡Las contribuciones son bienvenidas! Ver [CONTRIBUTING.md](./CONTRIBUTING.md)
+<div>
+  <!-- Tu app -->
+  <IssueFlowWidget {config} />
+</div>
+```
 
-### 🛠️ **Development Setup**
+## 🏗️ Arquitectura del Proyecto
+
+```
+issue-flow/
+├── packages/
+│   ├── sdk/              # Core SDK
+│   ├── server/           # Backend services
+│   ├── cli/              # CLI tool
+│   ├── vue/              # Vue 3 adapter
+│   ├── nextjs/           # Next.js adapter
+│   ├── angular/          # Angular adapter
+│   └── svelte/           # Svelte adapter
+├── apps/
+│   ├── dashboard/        # Admin dashboard
+│   ├── docs/             # Documentation site
+│   └── examples/         # Example implementations
+└── docs/                 # Documentation
+```
+
+## 📚 Documentación Completa
+
+### Guías de Inicio
+- [Configuración Inicial](./docs/getting-started.md)
+- [Conceptos Básicos](./docs/concepts.md)
+- [Configuración Avanzada](./docs/advanced-config.md)
+
+### Adapters
+- [Comparativa de Adapters](./docs/adapters.md)
+- [Vue 3 Guide](./docs/adapters/vue.md)
+- [Next.js Guide](./docs/adapters/nextjs.md)
+- [Angular Guide](./docs/adapters/angular.md)
+- [Svelte Guide](./docs/adapters/svelte.md)
+
+### Backend
+- [Server Setup](./docs/server/setup.md)
+- [API Reference](./docs/server/api.md)
+- [Database Schema](./docs/server/database.md)
+
+### Desarrollo
+- [Contributing Guide](./CONTRIBUTING.md)
+- [Development Setup](./docs/development.md)
+- [Release Process](./docs/release.md)
+
+## 🎨 Personalización
+
+### Configuración de Tema
+```typescript
+const config = {
+  projectId: 'mi-proyecto',
+  apiUrl: 'https://api.ejemplo.com/issueflow',
+  theme: {
+    mode: 'auto', // 'light' | 'dark' | 'auto'
+    primaryColor: '#3b82f6',
+    borderRadius: '0.5rem',
+    fontFamily: 'system-ui, sans-serif'
+  },
+  behavior: {
+    requireEmail: true,
+    allowFileUploads: true,
+    maxAttachmentSize: 10485760, // 10MB
+    captureConsoleErrors: true
+  }
+}
+```
+
+### Campos Personalizados
+```typescript
+const customFields = [
+  {
+    name: 'browser',
+    label: 'Navegador',
+    type: 'select',
+    required: true,
+    options: [
+      { label: 'Chrome', value: 'chrome' },
+      { label: 'Firefox', value: 'firefox' },
+      { label: 'Safari', value: 'safari' }
+    ]
+  },
+  {
+    name: 'reproduce_steps',
+    label: 'Pasos para Reproducir',
+    type: 'textarea',
+    required: false,
+    placeholder: 'Describe los pasos...'
+  }
+]
+```
+
+## 🌟 Casos de Uso
+
+### E-commerce
+- Feedback de productos
+- Reportes de bugs en checkout
+- Solicitudes de características
+- Problemas de envío
+
+### SaaS Applications  
+- Feature requests de usuarios
+- Bug reports técnicos
+- Feedback de UX/UI
+- Issues de integración
+
+### Corporate Websites
+- Feedback de contenido
+- Problemas técnicos
+- Solicitudes de información
+- Reportes de accesibilidad
+
+### Educational Platforms
+- Feedback de cursos
+- Issues técnicos
+- Solicitudes de mejora
+- Reportes de contenido
+
+## 📈 Roadmap
+
+### Q4 2024 ✅
+- [x] Core SDK v0.1.0
+- [x] Vue 3 Adapter
+- [x] Next.js Adapter  
+- [x] Angular Adapter
+- [x] Svelte Adapter
+- [x] Documentación completa
+
+### Q1 2025
+- [ ] React Native Adapter
+- [ ] Flutter Integration
+- [ ] Advanced Analytics Dashboard
+- [ ] Real-time Notifications
+
+### Q2 2025
+- [ ] AI-Powered Issue Classification
+- [ ] Multi-tenant Support
+- [ ] Advanced Workflow Automation
+- [ ] Enterprise SSO Integration
+
+### Q3 2025
+- [ ] Mobile SDK
+- [ ] Desktop Electron Integration
+- [ ] Advanced Reporting
+- [ ] Third-party Integrations (Jira, Linear, etc.)
+
+## 🤝 Comunidad y Soporte
+
+### Comunidad
+- [Discord Server](https://discord.gg/issueflow)
+- [GitHub Discussions](https://github.com/issueflow/issueflow/discussions)
+- [Stack Overflow Tag](https://stackoverflow.com/questions/tagged/issueflow)
+
+### Soporte Comercial
+- [Enterprise Support](https://issueflow.dev/enterprise)
+- [Consulting Services](https://issueflow.dev/consulting)
+- [Training Programs](https://issueflow.dev/training)
+
+### Contributing
+¡Las contribuciones son bienvenidas! Lee nuestra [Contributing Guide](./CONTRIBUTING.md) para comenzar.
+
+### 🛠️ Development Setup
 
 ```bash
-# Clonar repo
-git clone https://github.com/yosnap/issueflow.git
+# Clonar repositorio
+git clone https://github.com/issueflow/issueflow.git
 cd issueflow
 
-# Instalar dependencias  
+# Instalar dependencias
 npm install
 
-# Start development
+# Iniciar desarrollo
 npm run dev
 
-# Run tests
+# Ejecutar tests
 npm test
 ```
 
-## 💰 **Pricing**
+## 🙏 Agradecimientos
 
-### 🆓 **Free**
-- 1 proyecto
-- 100 issues/mes  
-- Basic integrations
-- Community support
+IssueFlow está construido sobre los hombros de gigantes. Agradecemos a:
 
-### 💼 **Pro - $29/mes**
-- 10 proyectos
-- Unlimited issues
-- All integrations
-- Priority support
+- **Open Source Community**: Por las increíbles herramientas y librerías
+- **Framework Teams**: Vue, React, Angular, Svelte por sus ecosistemas
+- **Contributors**: Todos los que han contribuido código, docs, y feedback
+- **Early Adopters**: Por confiar en IssueFlow y proporcionar feedback valioso
 
-### 🏢 **Agency - $99/mes**
-- Unlimited proyectos
-- White-label
-- Advanced analytics  
-- Dedicated support
+## 📄 Licencia
 
-## 📞 **Support**
-
-- 📖 **Docs**: [docs.issueflow.dev](https://docs.issueflow.dev)
-- 💬 **Discord**: [discord.gg/issueflow](https://discord.gg/issueflow)  
-- 🐛 **Issues**: [GitHub Issues](https://github.com/yosnap/issueflow/issues)
-- 📧 **Email**: hello@issueflow.dev
-
-## 📄 **License**
-
-MIT License - ver [LICENSE](./LICENSE) para detalles.
+MIT License - ver [LICENSE](./LICENSE) para más detalles.
 
 ---
 
-**Hecho con ❤️ por la comunidad de developers que está cansada del caos de comunicación con clientes.**
+<div align="center">
 
-⭐ **¡Dale una estrella si te gusta el proyecto!**
+**¿Te gusta IssueFlow?** ⭐ Dale una estrella en GitHub y síguenos para updates!
+
+[Website](https://issueflow.dev) • [Docs](./docs) • [Demo](https://demo.issueflow.dev) • [Blog](https://issueflow.dev/blog)
+
+</div>

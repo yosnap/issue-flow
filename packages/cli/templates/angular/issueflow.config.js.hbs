@@ -1,0 +1,149 @@
+/**
+ * IssueFlow Configuration for Angular
+ * 
+ * Configure IssueFlow for your {{project.name}} Angular project.
+ * Generated on {{variables.timestamp}} for {{project.framework}}
+ */
+
+export default {
+  // Project identification
+  projectId: '{{config.projectId}}',
+  
+  // API Configuration
+  apiUrl: '{{config.apiUrl}}',
+  {{#if config.organizationSlug}}
+  organizationSlug: '{{config.organizationSlug}}',
+  {{/if}}
+  
+  // Widget Configuration
+  widget: {
+    // Position: 'bottom-right', 'bottom-left', 'top-right', 'top-left'
+    position: '{{config.widget.position}}',
+    
+    // Trigger type: 'button', 'tab', 'custom'
+    trigger: '{{config.widget.trigger}}',
+    triggerText: '{{config.widget.triggerText}}',
+    
+    // Custom styling
+    customCSS: null,
+  },
+  
+  // Theme Configuration
+  theme: {
+    // Mode: 'light', 'dark', 'auto'
+    mode: '{{config.theme.mode}}',
+    primaryColor: '{{config.theme.primaryColor}}',
+    borderRadius: {{config.theme.borderRadius}},
+    
+    // Custom theme overrides
+    colors: {
+      // primary: '#your-color',
+      // background: '#your-background',
+      // text: '#your-text-color',
+    },
+  },
+  
+  // Behavior Configuration
+  behavior: {
+    // Error capture
+    captureConsoleErrors: {{config.behavior.captureConsoleErrors}},
+    captureUnhandledRejections: {{config.behavior.captureUnhandledRejections}},
+    
+    // User requirements
+    requireEmail: {{config.behavior.requireEmail}},
+    allowAnonymous: {{config.behavior.allowAnonymous}},
+    
+    // Success feedback
+    showSuccessMessage: {{config.behavior.showSuccessMessage}},
+    autoClose: {{config.behavior.autoClose}},
+    autoCloseDelay: {{config.behavior.autoCloseDelay}},
+    
+    // File attachments (premium feature)
+    allowFileUploads: false,
+    maxAttachmentSize: 5 * 1024 * 1024, // 5MB
+    allowedFileTypes: ['image/*', '.pdf', '.txt'],
+  },
+  
+  // Integration Configuration
+  integrations: {
+    // GitHub Integration
+    github: {
+      enabled: false,
+      // repo: 'owner/repository',
+      // autoCreateIssues: true,
+      // labels: ['feedback', 'user-report'],
+    },
+    
+    // ClickUp Integration
+    clickup: {
+      enabled: false,
+      // listId: 'your-list-id',
+      // autoCreateTasks: true,
+      // priority: 'normal',
+    },
+    
+    // Slack Integration
+    slack: {
+      enabled: false,
+      // webhook: process.env['SLACK_WEBHOOK'],
+      // channel: '#feedback',
+    },
+  },
+  
+  // User Context (auto-populated)
+  user: {
+    // Auto-capture user information
+    autoCapture: {
+      userAgent: true,
+      url: true,
+      timestamp: true,
+      viewport: true,
+    },
+    
+    // Custom user metadata
+    metadata: {
+      // version: '{{variables.version}}',
+      // environment: 'development',
+    },
+  },
+  
+  // Angular-specific Configuration
+  angular: {
+    // Module configuration
+    module: {
+      lazyLoad: false,
+      preload: true,
+    },
+    
+    // Forms configuration
+    forms: {
+      reactive: true,
+      validators: [],
+    },
+    
+    // Animations configuration
+    animations: {
+      enabled: true,
+      duration: 300,
+      custom: [],
+    },
+    
+    // Dependency injection configuration
+    injection: {
+      providedIn: 'root',
+      tokens: [],
+    },
+  },
+  
+  // Development Configuration
+  development: {
+    // Enable debug mode
+    debug: process.env['NODE_ENV'] === 'development',
+    
+    // Mock mode for testing
+    mockMode: false,
+    
+    // Local API override
+    // localApiUrl: 'http://localhost:3001',
+  },
+};

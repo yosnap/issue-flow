@@ -1,0 +1,140 @@
+{{#if variables.typescript}}
+import React from 'react';
+import { IssueFlowProvider, IssueFlowWidget, useIssueFlow } from '@issueflow/react';
+import type { IssueFlowConfig } from '@issueflow/react';
+import config from '../issueflow.config.js';
+{{else}}
+import React from 'react';
+import { IssueFlowProvider, IssueFlowWidget, useIssueFlow } from '@issueflow/react';
+import config from '../issueflow.config.js';
+{{/if}}
+
+/**
+ * IssueFlow Widget Component for {{project.name}}
+ * 
+ * This component provides feedback collection functionality
+ * integrated with your React application.
+ */
+
+{{#if variables.typescript}}
+interface IssueFlowWidgetWrapperProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+{{/if}}
+
+export function IssueFlowWidgetWrapper({{#if variables.typescript}}{ children, className }: IssueFlowWidgetWrapperProps{{else}}{ children, className }{{/if}}) {
+  return (
+    <IssueFlowProvider config={config}>
+      <div className={className}>
+        {children}
+        <IssueFlowWidget />
+      </div>
+    </IssueFlowProvider>
+  );
+}
+
+/**
+ * Custom Hook Example
+ * 
+ * Use this hook to programmatically trigger feedback collection
+ * or access IssueFlow functionality in your components.
+ */
+export function useCustomIssueFlow() {
+  const { submitIssue, isLoading, error } = useIssueFlow();
+  
+  const submitCustomFeedback = async ({{#if variables.typescript}}title: string, description: string, metadata?: Record<string, any>{{else}}title, description, metadata = {}{{/if}}) => {
+    try {
+      await submitIssue({
+        title,
+        description,
+        type: 'feedback',
+        priority: 'medium',
+        metadata: {
+          source: 'custom-hook',
+          component: 'useCustomIssueFlow',
+          timestamp: new Date().toISOString(),
+          ...metadata,
+        },
+      });
+      
+      console.log('Feedback submitted successfully');
+      return true;
+    } catch (error) {
+      console.error('Failed to submit feedback:', error);
+      return false;
+    }
+  };
+  
+  const reportError = async ({{#if variables.typescript}}error: Error, context?: string{{else}}error, context{{/if}}) => {
+    return await submitCustomFeedback(
+      `Error: ${error.message}`,
+      `An error occurred${context ? ` in ${context}` : ''}:\n\n${error.stack || error.message}`,
+      {
+        type: 'error',
+        errorName: error.name,
+        errorStack: error.stack,
+        context,
+      }
+    );
+  };
+  
+  return {
+    submitCustomFeedback,
+    reportError,
+    isLoading,
+    error,
+  };
+}
+
+/**
+ * Example Usage Component
+ * 
+ * This shows how to integrate IssueFlow in different ways.
+ */
+export function ExampleUsage() {
+  const { submitCustomFeedback, reportError } = useCustomIssueFlow();
+  
+  const handleFeedbackClick = () => {
+    submitCustomFeedback(
+      'Feature Request',
+      'I would like to see this new feature...',
+      { source: 'example-button' }
+    );
+  };
+  
+  const handleErrorReport = () => {
+    try {
+      // Simulate an error
+      throw new Error('This is a test error');
+    } catch (error) {
+      reportError(error{{#if variables.typescript}} as Error{{/if}}, 'ExampleUsage component');
+    }
+  };
+  
+  return (
+    <div style={{ padding: '20px' }}>
+      <h3>IssueFlow Integration Example</h3>
+      
+      <div style={{ marginBottom: '10px' }}>
+        <button onClick={handleFeedbackClick}>
+          Submit Custom Feedback
+        </button>
+      </div>
+      
+      <div style={{ marginBottom: '10px' }}>
+        <button onClick={handleErrorReport}>
+          Report Test Error
+        </button>
+      </div>
+      
+      <p>
+        The feedback widget is automatically available in the bottom-right corner.
+        You can also trigger feedback collection programmatically using the hooks above.
+      </p>
+    </div>
+  );
+}
+
+// Export the main widget wrapper as default
+export default IssueFlowWidgetWrapper;

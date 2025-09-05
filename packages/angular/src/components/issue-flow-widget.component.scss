@@ -1,0 +1,535 @@
+/**
+ * IssueFlow Widget Styles
+ * 
+ * Angular component styles with CSS custom properties for theming.
+ * Supports light/dark mode and responsive design.
+ */
+
+// CSS Custom Properties
+:root {
+  --if-primary-color: #3b82f6;
+  --if-primary-hover: #2563eb;
+  --if-secondary-color: #6b7280;
+  --if-background: #ffffff;
+  --if-surface: #f9fafb;
+  --if-text: #111827;
+  --if-text-secondary: #6b7280;
+  --if-border: #e5e7eb;
+  --if-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --if-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --if-border-radius: 8px;
+  --if-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --if-z-index: 9999;
+  --if-transition: all 0.2s ease-in-out;
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  :root {
+    --if-background: #1f2937;
+    --if-surface: #374151;
+    --if-text: #f9fafb;
+    --if-text-secondary: #d1d5db;
+    --if-border: #4b5563;
+  }
+}
+
+// Widget container
+.if-widget {
+  font-family: var(--if-font-family);
+  position: fixed;
+  z-index: var(--if-z-index);
+  
+  &.if-position-bottom-right {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  &.if-position-bottom-left {
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  &.if-position-top-right {
+    top: 20px;
+    right: 20px;
+  }
+  
+  &.if-position-top-left {
+    top: 20px;
+    left: 20px;
+  }
+  
+  &.if-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  
+  &.if-hidden {
+    display: none;
+  }
+}
+
+// Trigger button
+.if-widget-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--if-primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--if-border-radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--if-transition);
+  box-shadow: var(--if-shadow);
+  
+  &:hover:not(.if-disabled) {
+    background: var(--if-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--if-shadow-lg);
+  }
+  
+  &:active:not(.if-disabled) {
+    transform: translateY(0);
+  }
+  
+  .if-trigger-icon {
+    font-size: 16px;
+    line-height: 1;
+  }
+  
+  .if-trigger-text {
+    white-space: nowrap;
+  }
+}
+
+// Modal overlay
+.if-widget-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: var(--if-z-index);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--if-transition);
+  
+  &.if-open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Modal container
+.if-widget-modal {
+  background: var(--if-background);
+  border-radius: var(--if-border-radius);
+  box-shadow: var(--if-shadow-lg);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: var(--if-transition);
+  
+  .if-open & {
+    transform: scale(1);
+  }
+  
+  &.if-theme-dark {
+    --if-background: #1f2937;
+    --if-surface: #374151;
+    --if-text: #f9fafb;
+    --if-text-secondary: #d1d5db;
+    --if-border: #4b5563;
+  }
+}
+
+// Modal header
+.if-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--if-border);
+  
+  .if-modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--if-text);
+  }
+  
+  .if-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 24px;
+    color: var(--if-text-secondary);
+    cursor: pointer;
+    transition: var(--if-transition);
+    
+    &:hover {
+      background: var(--if-surface);
+      color: var(--if-text);
+    }
+  }
+}
+
+// Modal body
+.if-modal-body {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+// Loading state
+.if-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  
+  .if-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--if-border);
+    border-top: 3px solid var(--if-primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  p {
+    margin: 0;
+    color: var(--if-text-secondary);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Error state
+.if-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  
+  .if-error-icon {
+    font-size: 48px;
+  }
+  
+  .if-error-content {
+    h3 {
+      margin: 0 0 8px 0;
+      color: var(--if-text);
+      font-size: 16px;
+    }
+    
+    p {
+      margin: 0 0 16px 0;
+      color: var(--if-text-secondary);
+    }
+  }
+  
+  .if-retry-btn {
+    padding: 8px 16px;
+    background: var(--if-primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--if-border-radius);
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--if-transition);
+    
+    &:hover {
+      background: var(--if-primary-hover);
+    }
+  }
+}
+
+// Success state
+.if-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  
+  .if-success-icon {
+    font-size: 48px;
+  }
+  
+  .if-success-content {
+    h3 {
+      margin: 0 0 8px 0;
+      color: var(--if-text);
+      font-size: 16px;
+    }
+    
+    p {
+      margin: 0 0 16px 0;
+      color: var(--if-text-secondary);
+    }
+  }
+  
+  .if-success-btn {
+    padding: 8px 16px;
+    background: var(--if-surface);
+    color: var(--if-text);
+    border: 1px solid var(--if-border);
+    border-radius: var(--if-border-radius);
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--if-transition);
+    
+    &:hover {
+      background: var(--if-border);
+    }
+  }
+}
+
+// Form styles
+.if-feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.if-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.if-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--if-text);
+}
+
+.if-input,
+.if-select,
+.if-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--if-border);
+  border-radius: var(--if-border-radius);
+  font-size: 14px;
+  color: var(--if-text);
+  background: var(--if-background);
+  transition: var(--if-transition);
+  
+  &:focus {
+    outline: none;
+    border-color: var(--if-primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &::placeholder {
+    color: var(--if-text-secondary);
+  }
+}
+
+.if-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.if-field-error {
+  font-size: 12px;
+  color: #ef4444;
+}
+
+// File upload
+.if-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.if-file-input {
+  display: none;
+}
+
+.if-file-button {
+  align-self: flex-start;
+  padding: 8px 12px;
+  background: var(--if-surface);
+  color: var(--if-text);
+  border: 1px solid var(--if-border);
+  border-radius: var(--if-border-radius);
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--if-transition);
+  
+  &:hover {
+    background: var(--if-border);
+  }
+}
+
+.if-file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.if-file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: var(--if-surface);
+  border-radius: 4px;
+  font-size: 12px;
+  
+  .if-file-name {
+    color: var(--if-text-secondary);
+  }
+  
+  .if-file-remove {
+    background: none;
+    border: none;
+    color: var(--if-text-secondary);
+    cursor: pointer;
+    font-size: 16px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+      color: #ef4444;
+    }
+  }
+}
+
+// Form actions
+.if-form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.if-btn {
+  padding: 10px 16px;
+  border-radius: var(--if-border-radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--if-transition);
+  border: 1px solid transparent;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  &.if-btn-primary {
+    background: var(--if-primary-color);
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background: var(--if-primary-hover);
+    }
+  }
+  
+  &.if-btn-secondary {
+    background: var(--if-surface);
+    color: var(--if-text);
+    border-color: var(--if-border);
+    
+    &:hover:not(:disabled) {
+      background: var(--if-border);
+    }
+  }
+}
+
+// Modal footer
+.if-modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--if-border);
+  text-align: center;
+  
+  .if-powered-by {
+    margin: 0;
+    font-size: 12px;
+    color: var(--if-text-secondary);
+    
+    a {
+      color: var(--if-primary-color);
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 640px) {
+  .if-widget-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  
+  .if-widget-modal {
+    max-width: none;
+    border-radius: var(--if-border-radius) var(--if-border-radius) 0 0;
+    max-height: 80vh;
+  }
+  
+  .if-widget {
+    &.if-position-bottom-right,
+    &.if-position-bottom-left {
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+    }
+  }
+  
+  .if-widget-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  :root {
+    --if-border: #000000;
+    --if-text-secondary: #000000;
+  }
+}

@@ -1,0 +1,109 @@
+{{#if variables.typescript}}
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { createIssueFlowHandler } from '@issueflow/sdk';
+import config from '../../../../issueflow.config.js';
+
+/**
+ * IssueFlow API Handler for Next.js Pages Router
+ * 
+ * This handler proxies requests to the IssueFlow API
+ * and handles authentication and validation.
+ */
+
+const issueFlowHandler = createIssueFlowHandler({
+  config,
+  // Custom middleware
+  middleware: [
+    // Add your custom middleware here
+    // Example: Authentication, rate limiting, etc.
+  ],
+  
+  // Custom error handling
+  onError: (error: Error, req: NextApiRequest) => {
+    console.error('IssueFlow API Error:', {
+      error: error.message,
+      url: req.url,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+    });
+  },
+  
+  // Custom success logging
+  onSuccess: (result: any, req: NextApiRequest) => {
+    console.log('IssueFlow API Success:', {
+      url: req.url,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+    });
+  },
+});
+
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  return issueFlowHandler(req, res);
+}
+
+// Configure API route
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+    responseLimit: false,
+  },
+};
+{{else}}
+import { createIssueFlowHandler } from '@issueflow/sdk';
+import config from '../../../../issueflow.config.js';
+
+/**
+ * IssueFlow API Handler for Next.js Pages Router
+ * 
+ * This handler proxies requests to the IssueFlow API
+ * and handles authentication and validation.
+ */
+
+const issueFlowHandler = createIssueFlowHandler({
+  config,
+  // Custom middleware
+  middleware: [
+    // Add your custom middleware here
+    // Example: Authentication, rate limiting, etc.
+  ],
+  
+  // Custom error handling
+  onError: (error, req) => {
+    console.error('IssueFlow API Error:', {
+      error: error.message,
+      url: req.url,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+    });
+  },
+  
+  // Custom success logging
+  onSuccess: (result, req) => {
+    console.log('IssueFlow API Success:', {
+      url: req.url,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+    });
+  },
+});
+
+export default function handler(req, res) {
+  return issueFlowHandler(req, res);
+}
+
+// Configure API route
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+    responseLimit: false,
+  },
+};
+{{/if}}

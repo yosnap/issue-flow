@@ -1,0 +1,137 @@
+<template>
+  <div class="issueflow-wrapper">
+    <!-- Your app content -->
+    <slot />
+    
+    <!-- IssueFlow Widget -->
+    <IssueFlowWidget />
+  </div>
+</template>
+
+<script{{#if variables.typescript}} setup lang="ts"{{/if}}>
+{{#if variables.typescript}}
+import { IssueFlowWidget, useIssueFlow } from '@issueflow/vue';
+import type { IssueFlowConfig } from '@issueflow/vue';
+import { onMounted, onUnmounted } from 'vue';
+import config from '../issueflow.config.js';
+
+// Initialize IssueFlow
+const { initialize, cleanup, submitIssue, isLoading } = useIssueFlow();
+
+onMounted(() => {
+  initialize(config as IssueFlowConfig);
+});
+
+onUnmounted(() => {
+  cleanup();
+});
+
+// Expose methods for parent components
+defineExpose({
+  submitCustomFeedback: async (title: string, description: string, metadata?: Record<string, any>) => {
+    try {
+      await submitIssue({
+        title,
+        description,
+        type: 'feedback',
+        priority: 'medium',
+        metadata: {
+          source: 'vue-component',
+          timestamp: new Date().toISOString(),
+          ...metadata,
+        },
+      });
+      return true;
+    } catch (error) {
+      console.error('Failed to submit feedback:', error);
+      return false;
+    }
+  },
+  isLoading: () => isLoading.value,
+});
+{{else}}
+import { IssueFlowWidget, useIssueFlow } from '@issueflow/vue';
+import { onMounted, onUnmounted } from 'vue';
+import config from '../issueflow.config.js';
+
+// Initialize IssueFlow
+const { initialize, cleanup, submitIssue, isLoading } = useIssueFlow();
+
+export default {
+  name: 'IssueFlowWidgetWrapper',
+  components: {
+    IssueFlowWidget,
+  },
+  setup(props, { expose }) {
+    onMounted(() => {
+      initialize(config);
+    });
+    
+    onUnmounted(() => {
+      cleanup();
+    });
+    
+    const submitCustomFeedback = async (title, description, metadata = {}) => {
+      try {
+        await submitIssue({
+          title,
+          description,
+          type: 'feedback',
+          priority: 'medium',
+          metadata: {
+            source: 'vue-component',
+            timestamp: new Date().toISOString(),
+            ...metadata,
+          },
+        });
+        return true;
+      } catch (error) {
+        console.error('Failed to submit feedback:', error);
+        return false;
+      }
+    };
+    
+    // Expose methods for parent components
+    expose({
+      submitCustomFeedback,
+      isLoading: () => isLoading.value,
+    });
+    
+    return {
+      submitCustomFeedback,
+      isLoading,
+    };
+  },
+};
+{{/if}}
+</script>
+
+<style scoped>
+.issueflow-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Custom styles for the widget */
+:deep(.issueflow-widget) {
+  /* Customize widget appearance here */
+  --issueflow-primary-color: {{config.theme.primaryColor}};
+  --issueflow-border-radius: {{config.theme.borderRadius}}px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :deep(.issueflow-widget) {
+    --issueflow-background: #1a1a1a;
+    --issueflow-text: #ffffff;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  :deep(.issueflow-widget) {
+    /* Mobile-specific adjustments */
+  }
+}
+</style>

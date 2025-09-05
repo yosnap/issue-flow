@@ -1,0 +1,222 @@
+{{#if variables.typescript}}
+import { Component, OnInit } from '@angular/core';
+import { IssueFlowModule, IssueFlowService, createIssueFlowConfiguration } from '@issueflow/angular';
+import type { IssueFlowConfig } from '@issueflow/angular';
+import issueFlowConfig from '../issueflow.config.js';
+{{else}}
+import { Component, OnInit } from '@angular/core';
+import { IssueFlowModule, IssueFlowService, createIssueFlowConfiguration } from '@issueflow/angular';
+import issueFlowConfig from '../issueflow.config.js';
+{{/if}}
+
+/**
+ * IssueFlow Widget Component for {{project.name}}
+ * 
+ * This component integrates the IssueFlow widget into your Angular application.
+ * It provides feedback collection functionality with full Angular integration.
+ * 
+ * Usage:
+ * 1. Import this component in your module
+ * 2. Add <app-issue-flow-widget></app-issue-flow-widget> to your template
+ * 3. The widget will appear in the configured position
+ */
+
+@Component({
+  selector: 'app-issue-flow-widget',
+  standalone: true,
+  imports: [IssueFlowModule],
+  template: `
+    <!-- IssueFlow Widget -->
+    <if-widget
+      [config]="config"
+      [position]="position"
+      [disabled]="disabled"
+      (issueSubmitted)="onIssueSubmitted($event)"
+      (widgetOpened)="onWidgetOpened()"
+      (widgetClosed)="onWidgetClosed()"
+      (error)="onError($event)"
+    ></if-widget>
+  `,
+  styles: [`
+    :host {
+      display: block;
+    }
+    
+    /* Custom widget styling */
+    ::ng-deep .if-widget {
+      /* Customize widget appearance here */
+      --if-primary-color: {{config.theme.primaryColor}};
+      --if-border-radius: {{config.theme.borderRadius}}px;
+    }
+    
+    /* Angular Material integration */
+    {{#if variables.useMaterial}}
+    ::ng-deep .if-widget {
+      font-family: 'Roboto', sans-serif;
+    }
+    {{/if}}
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      ::ng-deep .if-widget {
+        /* Mobile-specific adjustments */
+      }
+    }
+  `]
+})
+export class IssueFlowWidgetComponent implements OnInit {
+  config{{#if variables.typescript}}: IssueFlowConfig{{/if}};
+  position{{#if variables.typescript}}: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'{{/if}} = '{{config.widget.position}}';
+  disabled = false;
+
+  constructor(private issueFlowService: IssueFlowService) {
+    // Create validated configuration
+    this.config = createIssueFlowConfiguration(issueFlowConfig{{#if variables.typescript}} as any{{/if}});
+  }
+
+  async ngOnInit(){{#if variables.typescript}}: Promise<void>{{/if}} {
+    try {
+      // Initialize the IssueFlow service
+      await this.issueFlowService.initialize(this.config);
+      
+      console.log('[IssueFlow] Widget initialized successfully');
+      
+      // Optional: Listen to service events
+      this.setupEventListeners();
+      
+    } catch (error) {
+      console.error('[IssueFlow] Failed to initialize widget:', error);
+      this.disabled = true;
+    }
+  }
+
+  private setupEventListeners(){{#if variables.typescript}}: void{{/if}} {
+    // Listen to configuration changes
+    this.issueFlowService.config$.subscribe(config => {
+      if (config) {
+        console.log('[IssueFlow] Configuration updated:', config);
+      }
+    });
+
+    // Listen to loading state
+    this.issueFlowService.loading$.subscribe(loading => {
+      console.log('[IssueFlow] Loading state:', loading);
+    });
+
+    // Listen to errors
+    this.issueFlowService.error$.subscribe(error => {
+      if (error) {
+        console.error('[IssueFlow] Service error:', error);
+      }
+    });
+  }
+
+  /**
+   * Handle issue submission
+   */
+  onIssueSubmitted(result{{#if variables.typescript}}: any{{/if}}){{#if variables.typescript}}: void{{/if}} {
+    console.log('[IssueFlow] Issue submitted:', result);
+    
+    // Optional: Show custom success notification
+    // this.showNotification('Thank you for your feedback!');
+    
+    // Optional: Track analytics
+    // this.analytics.track('feedback_submitted', {
+    //   issueId: result.issue.id,
+    //   type: result.issue.type,
+    //   source: 'angular-widget'
+    // });
+  }
+
+  /**
+   * Handle widget opened
+   */
+  onWidgetOpened(){{#if variables.typescript}}: void{{/if}} {
+    console.log('[IssueFlow] Widget opened');
+    
+    // Optional: Track analytics
+    // this.analytics.track('feedback_widget_opened');
+  }
+
+  /**
+   * Handle widget closed
+   */
+  onWidgetClosed(){{#if variables.typescript}}: void{{/if}} {
+    console.log('[IssueFlow] Widget closed');
+    
+    // Optional: Track analytics
+    // this.analytics.track('feedback_widget_closed');
+  }
+
+  /**
+   * Handle errors
+   */
+  onError(error{{#if variables.typescript}}: Error{{/if}}){{#if variables.typescript}}: void{{/if}} {
+    console.error('[IssueFlow] Widget error:', error);
+    
+    // Optional: Show error notification to user
+    // this.showErrorNotification('Something went wrong. Please try again.');
+    
+    // Optional: Report error to monitoring service
+    // this.errorReporting.captureException(error);
+  }
+
+  /**
+   * Programmatically submit feedback
+   * 
+   * You can call this method to submit feedback from anywhere in your application
+   */
+  async submitCustomFeedback(
+    title{{#if variables.typescript}}: string{{/if}}, 
+    description{{#if variables.typescript}}: string{{/if}}, 
+    metadata{{#if variables.typescript}}?: Record<string, any>{{/if}} = {}
+  ){{#if variables.typescript}}: Promise<boolean>{{/if}} {
+    try {
+      const result = await this.issueFlowService.submitIssue({
+        title,
+        description,
+        type: 'feedback',
+        priority: 'medium',
+        metadata: {
+          source: 'programmatic',
+          component: '{{project.name}}-widget',
+          timestamp: new Date().toISOString(),
+          ...metadata,
+        },
+      });
+
+      console.log('[IssueFlow] Custom feedback submitted:', result);
+      return true;
+      
+    } catch (error) {
+      console.error('[IssueFlow] Failed to submit custom feedback:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Report an error programmatically
+   */
+  async reportError(
+    error{{#if variables.typescript}}: Error{{/if}}, 
+    context{{#if variables.typescript}}?: string{{/if}}
+  ){{#if variables.typescript}}: Promise<boolean>{{/if}} {
+    return await this.submitCustomFeedback(
+      `Error: ${error.message}`,
+      `An error occurred${context ? ` in ${context}` : ''}:\n\n${error.stack || error.message}`,
+      {
+        type: 'error',
+        errorName: error.name,
+        errorStack: error.stack,
+        context,
+      }
+    );
+  }
+
+  /**
+   * Toggle widget disabled state
+   */
+  toggleWidget(){{#if variables.typescript}}: void{{/if}} {
+    this.disabled = !this.disabled;
+  }
+}

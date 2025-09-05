@@ -1,0 +1,299 @@
+{{#if variables.typescript}}
+import { Injectable, inject } from '@angular/core';
+import { IssueFlowService, ISSUEFLOW_CONFIG, createIssueFlowConfiguration } from '@issueflow/angular';
+import type { IssueFlowConfig, Issue, IssueSubmissionResult } from '@issueflow/angular';
+import { Observable, BehaviorSubject } from 'rxjs';
+import issueFlowConfig from '../issueflow.config.js';
+{{else}}
+import { Injectable, inject } from '@angular/core';
+import { IssueFlowService, ISSUEFLOW_CONFIG, createIssueFlowConfiguration } from '@issueflow/angular';
+import { Observable, BehaviorSubject } from 'rxjs';
+import issueFlowConfig from '../issueflow.config.js';
+{{/if}}
+
+/**
+ * {{project.name}} IssueFlow Service
+ * 
+ * This service extends the base IssueFlow service with project-specific functionality.
+ * It provides a higher-level API for common operations in your Angular application.
+ * 
+ * Usage:
+ * 1. Inject this service into your components
+ * 2. Call initialize() in your app initialization
+ * 3. Use the provided methods for feedback collection
+ */
+
+@Injectable({
+  providedIn: 'root'
+})
+export class {{project.name | pascalCase}}IssueFlowService {
+  private issueFlowService = inject(IssueFlowService);
+  private isInitialized = false;
+  
+  // Project-specific state
+  private contextSubject = new BehaviorSubject{{#if variables.typescript}}<Record<string, any>>{{/if}}({});
+  public readonly context$ = this.contextSubject.asObservable();
+
+  constructor() {
+    // Auto-initialize with project configuration
+    this.initializeService();
+  }
+
+  private async initializeService(){{#if variables.typescript}}: Promise<void>{{/if}} {
+    try {
+      const config = createIssueFlowConfiguration(issueFlowConfig{{#if variables.typescript}} as any{{/if}});
+      await this.issueFlowService.initialize(config);
+      this.isInitialized = true;
+      
+      console.log('[{{project.name}}] IssueFlow service initialized');
+      
+      // Set initial context
+      this.updateContext({
+        project: '{{project.name}}',
+        framework: 'angular',
+        version: '{{variables.version}}',
+        environment: this.getEnvironment(),
+        user: this.getUserContext(),
+      });
+      
+    } catch (error) {
+      console.error('[{{project.name}}] Failed to initialize IssueFlow:', error);
+    }
+  }
+
+  /**
+   * Get all observables from the base service
+   */
+  get config$(){{#if variables.typescript}}: Observable<IssueFlowConfig | null>{{/if}} {
+    return this.issueFlowService.config$;
+  }
+
+  get loading$(){{#if variables.typescript}}: Observable<boolean>{{/if}} {
+    return this.issueFlowService.loading$;
+  }
+
+  get error$(){{#if variables.typescript}}: Observable<Error | null>{{/if}} {
+    return this.issueFlowService.error$;
+  }
+
+  get user$(){{#if variables.typescript}}: Observable<any>{{/if}} {
+    return this.issueFlowService.user$;
+  }
+
+  get issues$(){{#if variables.typescript}}: Observable<Issue[]>{{/if}} {
+    return this.issueFlowService.issues$;
+  }
+
+  /**
+   * Submit feedback with project context
+   */
+  async submitFeedback(
+    title{{#if variables.typescript}}: string{{/if}},
+    description{{#if variables.typescript}}: string{{/if}},
+    options{{#if variables.typescript}}?: {
+      type?: 'feedback' | 'bug' | 'feature' | 'question';
+      priority?: 'low' | 'medium' | 'high' | 'critical';
+      metadata?: Record<string, any>;
+    }{{/if}} = {}
+  ){{#if variables.typescript}}: Promise<IssueSubmissionResult>{{/if}} {
+    const currentContext = this.contextSubject.value;
+    
+    const issueData{{#if variables.typescript}}: Partial<Issue>{{/if}} = {
+      title,
+      description,
+      type: options.type || 'feedback',
+      priority: options.priority || 'medium',
+      metadata: {
+        ...currentContext,
+        ...options.metadata,
+        submittedAt: new Date().toISOString(),
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+      },
+    };
+
+    return await this.issueFlowService.submitIssue(issueData);
+  }
+
+  /**
+   * Report a bug with error details
+   */
+  async reportBug(
+    error{{#if variables.typescript}}: Error{{/if}},
+    context{{#if variables.typescript}}?: {
+      component?: string;
+      action?: string;
+      userInput?: any;
+      additionalInfo?: string;
+    }{{/if}} = {}
+  ){{#if variables.typescript}}: Promise<IssueSubmissionResult>{{/if}} {
+    return await this.submitFeedback(
+      `Bug: ${error.message}`,
+      `An error occurred in {{project.name}}:
+
+**Error Details:**
+- Name: ${error.name}
+- Message: ${error.message}
+- Stack: ${error.stack || 'No stack trace available'}
+
+**Context:**
+- Component: ${context.component || 'Unknown'}
+- Action: ${context.action || 'Unknown'}
+- User Input: ${JSON.stringify(context.userInput || 'None', null, 2)}
+
+**Additional Information:**
+${context.additionalInfo || 'No additional information provided'}
+
+**Environment:**
+- URL: ${window.location.href}
+- User Agent: ${navigator.userAgent}
+- Timestamp: ${new Date().toISOString()}
+      `,
+      {
+        type: 'bug',
+        priority: 'high',
+        metadata: {
+          errorType: error.name,
+          errorMessage: error.message,
+          errorStack: error.stack,
+          ...context,
+        },
+      }
+    );
+  }
+
+  /**
+   * Submit a feature request
+   */
+  async requestFeature(
+    title{{#if variables.typescript}}: string{{/if}},
+    description{{#if variables.typescript}}: string{{/if}},
+    justification{{#if variables.typescript}}?: string{{/if}},
+    priority{{#if variables.typescript}}?: 'low' | 'medium' | 'high'{{/if}} = 'medium'
+  ){{#if variables.typescript}}: Promise<IssueSubmissionResult>{{/if}} {
+    const enhancedDescription = `${description}
+
+${justification ? `**Why this feature would be valuable:**\n${justification}\n` : ''}
+
+**Requested by:** {{project.name}} user
+**Priority:** ${priority}
+**Date:** ${new Date().toLocaleDateString()}
+    `;
+
+    return await this.submitFeedback(
+      title,
+      enhancedDescription,
+      {
+        type: 'feature',
+        priority,
+        metadata: {
+          featureRequest: true,
+          justification,
+        },
+      }
+    );
+  }
+
+  /**
+   * Ask a question or request support
+   */
+  async askQuestion(
+    question{{#if variables.typescript}}: string{{/if}},
+    details{{#if variables.typescript}}?: string{{/if}},
+    urgency{{#if variables.typescript}}?: 'low' | 'medium' | 'high'{{/if}} = 'medium'
+  ){{#if variables.typescript}}: Promise<IssueSubmissionResult>{{/if}} {
+    return await this.submitFeedback(
+      `Question: ${question}`,
+      details || question,
+      {
+        type: 'question',
+        priority: urgency,
+        metadata: {
+          supportRequest: true,
+          urgency,
+        },
+      }
+    );
+  }
+
+  /**
+   * Update project context
+   */
+  updateContext(context{{#if variables.typescript}}: Record<string, any>{{/if}}){{#if variables.typescript}}: void{{/if}} {
+    const currentContext = this.contextSubject.value;
+    const newContext = { ...currentContext, ...context };
+    this.contextSubject.next(newContext);
+  }
+
+  /**
+   * Set user information
+   */
+  setUser(user{{#if variables.typescript}}: {
+    id?: string;
+    email?: string;
+    name?: string;
+    role?: string;
+    metadata?: Record<string, any>;
+  }{{/if}}){{#if variables.typescript}}: void{{/if}} {
+    this.updateContext({ user });
+  }
+
+  /**
+   * Track custom events for better context
+   */
+  trackEvent(event{{#if variables.typescript}}: string{{/if}}, data{{#if variables.typescript}}?: Record<string, any>{{/if}}){{#if variables.typescript}}: void{{/if}} {
+    this.updateContext({
+      lastEvent: {
+        name: event,
+        data,
+        timestamp: new Date().toISOString(),
+      },
+    });
+  }
+
+  /**
+   * Get current environment
+   */
+  private getEnvironment(){{#if variables.typescript}}: string{{/if}} {
+    if (typeof window === 'undefined') return 'ssr';
+    
+    const hostname = window.location.hostname;
+    
+    if (hostname === 'localhost' || hostname.startsWith('127.0.0.1')) {
+      return 'development';
+    } else if (hostname.includes('staging') || hostname.includes('dev')) {
+      return 'staging';
+    } else {
+      return 'production';
+    }
+  }
+
+  /**
+   * Get user context information
+   */
+  private getUserContext(){{#if variables.typescript}}: Record<string, any>{{/if}} {
+    return {
+      language: navigator.language,
+      platform: navigator.platform,
+      cookieEnabled: navigator.cookieEnabled,
+      onLine: navigator.onLine,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      screenResolution: `${screen.width}x${screen.height}`,
+      viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+    };
+  }
+
+  /**
+   * Check if service is ready
+   */
+  isReady(){{#if variables.typescript}}: boolean{{/if}} {
+    return this.isInitialized && this.issueFlowService.isInitialized();
+  }
+
+  /**
+   * Get current configuration
+   */
+  getConfig(){{#if variables.typescript}}: IssueFlowConfig | null{{/if}} {
+    return this.issueFlowService.getConfig();
+  }
+}
