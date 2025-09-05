@@ -1,0 +1,67 @@
+
+services:
+  # Development Database
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: issueflow-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: issueflow_dev
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    networks:
+      - issueflow-dev-network
+
+  # Development Redis
+  redis-dev:
+    image: redis:7-alpine
+    container_name: issueflow-redis-dev
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_dev_data:/data
+    ports:
+      - "6380:6379"
+    networks:
+      - issueflow-dev-network
+
+  # Development Tools
+  adminer-dev:
+    image: adminer:latest
+    container_name: issueflow-adminer-dev
+    restart: unless-stopped
+    ports:
+      - "8082:8080"
+    networks:
+      - issueflow-dev-network
+    depends_on:
+      - postgres-dev
+
+  redis-commander-dev:
+    image: rediscommander/redis-commander:latest
+    container_name: issueflow-redis-commander-dev
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: redis-dev:redis-dev:6379
+    ports:
+      - "8083:8081"
+    networks:
+      - issueflow-dev-network
+    depends_on:
+      - redis-dev
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+
+networks:
+  issueflow-dev-network:
+    driver: bridge
+    name: issueflow-dev-network

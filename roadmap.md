@@ -13,7 +13,7 @@
 - [x] Diseñar arquitectura multi-tenant completa
 - [x] Definir schema de base de datos
 - [x] Configurar monorepo con Turborepo/Lerna
-- [ ] Setup Docker y Docker Compose
+- [x] Setup Docker y Docker Compose
 - [x] Definir API contracts (OpenAPI 3.0)
 
 ### ✅ Semana 3-4: Core Service [COMPLETADO]

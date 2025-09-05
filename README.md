@@ -305,6 +305,7 @@ const customFields = [
 
 ### 🛠️ Development Setup
 
+#### Desarrollo Local
 ```bash
 # Clonar repositorio
 git clone https://github.com/issueflow/issueflow.git
@@ -319,6 +320,28 @@ npm run dev
 # Ejecutar tests
 npm test
 ```
+
+#### Desarrollo con Docker 🐳
+
+Para un setup completo con base de datos y servicios:
+
+```bash
+# Setup automático con Docker
+./scripts/docker-setup.sh
+
+# Comandos disponibles
+npm run docker:up        # Iniciar todos los servicios
+npm run docker:down      # Parar servicios
+npm run docker:dev       # Entorno de desarrollo
+npm run docker:logs      # Ver logs
+
+# Script de desarrollo interactivo
+./scripts/docker-dev.sh start    # Iniciar desarrollo
+./scripts/docker-dev.sh logs     # Ver logs
+./scripts/docker-dev.sh shell    # Abrir shell en contenedor
+```
+
+Ver la [Guía Completa de Docker](./docs/docker.md) para más detalles.
 
 ## 🙏 Agradecimientos
 
