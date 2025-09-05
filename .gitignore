@@ -121,3 +121,7 @@ temp/
 
 # Generated files
 CHANGELOG.md
+
+# Private/sensitive information
+.CLAUDE/
+CLAUDE_INTERNAL.md
