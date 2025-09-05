@@ -1,384 +1,164 @@
-# CLAUDE.md - IssueFlow Framework Development
+# 🚀 IssueFlow Framework - Claude Code Configuration
 
-## 🎯 VISIÓN DEL PRODUCTO
+> **Framework open-source que conecta clientes no-técnicos directamente con tu workflow de desarrollo**
 
-**IssueFlow**: Framework open-source para que equipos de desarrollo integren sistemas de feedback de clientes directamente en sitios web entregados, con automatización completa hacia herramientas de desarrollo.
+## 🎯 Descripción del Proyecto
 
----
+**IssueFlow** es un framework diseñado para resolver el caos de comunicación post-entrega entre developers/agencias y sus clientes. Automatiza completamente el flujo desde que un cliente reporta un problema hasta su resolución.
 
-## 🚀 PROPUESTA DE VALOR
+### ✨ **Problema que Resuelve**
+```
+❌ Antes: Cliente envía email "algo está roto" 
+         → Developer crea GitHub issue manualmente
+         → Developer crea ClickUp task manualmente  
+         → Developer contacta cliente cuando está listo
+         → Repetir para cada proyecto...
 
-### Para Agencias de Desarrollo
+✅ Con IssueFlow: issueflow init → Todo automatizado
+```
 
-- **Profesionalizar** la comunicación post-entrega con clientes
-- **Automatizar** el flujo: Cliente reporta → GitHub issue → ClickUp task → Notificación resolución
-- **Multi-proyecto** y multi-cliente desde un dashboard central
-- **White-label** para mantener branding de la agencia
-
-### Para Freelancers
-
-- **Setup en 5 minutos** con CLI tool
-- **Gratis** para proyectos pequeños (open source)
-- **Integración** con cualquier stack tecnológico
-
-### Para SaaS Companies
-
-- **Feedback loop** directo desde la aplicación
-- **Roadmap integration** con Linear, Notion, etc.
-- **Analytics** de satisfaction y resolution time
-
----
-
-## 🏗️ ARQUITECTURA DEL FRAMEWORK
+## 🏗️ Arquitectura del Framework
 
 ### Core Components
-
 ```
 IssueFlow/
-├── core/                    # Microservicio central (multi-tenant)
-├── cli/                     # Tool de setup: `npx create-issueflow`
-├── adapters/                # Plugins oficiales por stack
+├── core/                    # Framework central multi-tenant
+├── cli/                     # Tool: `npx create-issueflow`  
+├── adapters/                # Plugins por framework (React, Vue, etc.)
 ├── sdk/                     # APIs para integraciones custom
-├── dashboard/               # Web app para gestión
+├── dashboard/               # Management interface
 └── marketplace/             # Community plugins
 ```
 
-### Distribution Strategy
+### Stack Tecnológico
+- **Backend**: Node.js + TypeScript + PostgreSQL
+- **Frontend Adapters**: React, Vue, Next.js, Nuxt, Astro, Svelte
+- **API**: REST + GraphQL + WebSockets
+- **Deployment**: Docker + Kubernetes
+- **Distribution**: NPM packages + hosted SaaS
 
-- **Open Source Core** → GitHub, licencia MIT
-- **Official Adapters** → NPM packages
-- **Hosted SaaS** → Freemium model
-- **Enterprise** → White-label + advanced features
+## 🎯 Segmentos Objetivo
 
----
+### 🏢 **Agencias de Desarrollo** (Primary)
+- **Pain Point**: Comunicación post-entrega desorganizada
+- **Solution**: Dashboard multi-cliente + automatización completa
+- **Value**: Reduce 80% trabajo manual, imagen profesional
 
-## 🤖 SUBAGENTES ESPECIALIZADOS PARA FRAMEWORK
+### 👨‍💻 **Freelancers** (Secondary)  
+- **Pain Point**: Parecer profesional con presupuesto limitado
+- **Solution**: Setup 5 minutos, tier gratuito
+- **Value**: Automatización + professional UX
 
-### 🏛️ FRAMEWORK_ARCHITECT
+### 🚀 **SaaS Companies** (Growth)
+- **Pain Point**: Feedback loop desconectado del desarrollo  
+- **Solution**: In-app feedback + roadmap integration
+- **Value**: Product insights + automated prioritization
 
-**Rol**: Diseñar arquitectura escalable multi-tenant
-**Responsabilidades**:
+## 📋 Roadmap de Desarrollo
 
-- Arquitectura multi-tenant del core
-- Plugin system para adaptadores
-- API versioning strategy
-- Scalability y performance design
+### **v0.1.0** - Fundación (Actual ✅)
+- [x] Documentación completa y arquitectura
+- [x] Estructura monorepo con Turbo
+- [x] CI/CD pipelines configurados
+- [x] Community guidelines establecidos
 
-**Prompt de activación**:
+### **v0.2.0** - Core MVP (Mes 1-2)
+- [ ] Framework core con arquitectura multi-tenant
+- [ ] REST API básica + autenticación
+- [ ] React adapter inicial
+- [ ] CLI tool básico (`issueflow init`)
 
-```
-Actúa como FRAMEWORK_ARCHITECT. Diseña la arquitectura completa de IssueFlow como framework comercial.
+### **v0.3.0** - Framework Adapters (Mes 2-3)
+- [ ] Vue, Next.js, Nuxt adapters
+- [ ] JavaScript SDK completo
+- [ ] Integración GitHub Issues
+- [ ] Basic dashboard
 
-Requisitos técnicos:
-- Multi-tenant (múltiples agencias/organizaciones)
-- Plugin system extensible
-- API pública bien documentada
-- Escalabilidad horizontal (Docker/K8s)
-- Multiple databases support (PostgreSQL, MySQL, MongoDB)
-- Webhook system para integraciones
-- Authentication/Authorization robusto
+### **v1.0.0** - Community Launch (Mes 3)
+- [ ] 5+ framework adapters oficiales
+- [ ] ClickUp integration
+- [ ] Documentación completa
+- [ ] Open source launch (Product Hunt, HN)
 
-Business requirements:
-- Free tier + Premium features
-- White-label capabilities
-- Usage-based pricing model
-- Enterprise security compliance
+### **v2.0.0** - SaaS Launch (Mes 4-5)
+- [ ] Hosted version con billing
+- [ ] GraphQL API + real-time updates
+- [ ] Plugin marketplace beta
+- [ ] Advanced analytics
 
-Entrega: Arquitectura completa con diagramas y especificaciones técnicas.
-```
+## 🤖 Sistema de Agentes Especializados
 
-### 🛠️ CLI_ENGINEER
+Este proyecto utiliza agentes especializados para diferentes aspectos del desarrollo. Ver [.CLAUDE/](/.CLAUDE/) para configuraciones detalladas:
 
-**Rol**: Crear CLI tool para developers
-**Responsabilidades**:
+- **🏛️ FRAMEWORK_ARCHITECT** - Arquitectura técnica y escalabilidad
+- **🛠️ CLI_ENGINEER** - Herramientas de desarrollo y DX  
+- **📦 SDK_DEVELOPER** - APIs e integraciones
+- **🧩 PLUGIN_SYSTEM_ARCHITECT** - Sistema de plugins y marketplace
+- **💼 BUSINESS_STRATEGIST** - Estrategia comercial y pricing
+- **🌐 COMMUNITY_BUILDER** - Documentación y comunidad
 
-- `npx create-issueflow` setup wizard
-- Project management commands
-- Deployment helpers
-- Plugin installation/management
-
-**Prompt de activación**:
-
-```
-Actúa como CLI_ENGINEER. Crea un CLI tool completo para IssueFlow.
-
-Features principales:
-- `npx create-issueflow` → Setup wizard interactivo
-- `issueflow init` → Configurar en proyecto existente
-- `issueflow deploy` → Deploy a diferentes providers
-- `issueflow plugins` → Gestionar adaptadores
-- `issueflow config` → Configuración de integraciones
-
-Tech stack: Node.js + Commander.js + Inquirer
-Inspiración: Next.js CLI, Vite CLI, Angular CLI
-
-Entrega: CLI completo con todos los comandos y documentación.
-```
-
-### 📦 SDK_DEVELOPER
-
-**Rol**: APIs y SDKs para múltiples lenguajes
-**Responsabilidades**:
-
-- REST API completa y GraphQL
-- JavaScript/TypeScript SDK
-- Python SDK para backend integrations
-- Webhook handling utilities
-
-**Prompt de activación**:
-
-```
-Actúa como SDK_DEVELOPER. Crea SDKs completos para IssueFlow.
-
-APIs requeridas:
-1. REST API (OpenAPI 3.0 spec completa)
-2. GraphQL API para queries complejas
-3. Real-time API (WebSockets) para updates
-
-SDKs prioritarios:
-1. JavaScript/TypeScript (frontend + Node.js)
-2. Python (backend integrations)
-3. PHP (WordPress, Laravel integrations)
-
-Features:
-- Authentication handling
-- Rate limiting client-side
-- Retry logic y error handling
-- TypeScript definitions completas
-- Webhook verification utilities
-
-Entrega: SDKs completos con documentación y ejemplos.
+### Comandos de Activación
+```bash
+# Ejemplo de uso:
+Claude actúa como FRAMEWORK_ARCHITECT según .CLAUDE/agents/framework-architect/prompt.md
 ```
 
-### 🧩 PLUGIN_SYSTEM_ARCHITECT
+## 🌟 Diferenciación Competitiva
 
-**Rol**: Sistema de plugins y marketplace
-**Responsabilidades**:
+### vs Herramientas Genéricas (Canny, UserVoice)
+❌ **Ellos**: Generic feedback tools  
+✅ **Nosotros**: Dev-first con integración nativa GitHub/ClickUp
 
-- Plugin architecture y API
-- Marketplace web para community plugins
-- Official adapters (React, Vue, Astro, etc.)
-- Plugin validation y security
+### vs Herramientas Técnicas (Linear, GitHub Issues)  
+❌ **Ellos**: Requieren conocimiento técnico del cliente
+✅ **Nosotros**: Client-friendly interface + dev automation
 
-**Prompt de activación**:
+### vs Soluciones Custom
+❌ **Ellos**: Build from scratch cada proyecto
+✅ **Nosotros**: Framework reusable across projects y stacks
 
-```
-Actúa como PLUGIN_SYSTEM_ARCHITECT. Diseña el sistema de plugins de IssueFlow.
+## 🎯 Success Metrics
 
-Tipos de plugins:
-1. Frontend Adapters (React, Vue, Astro, Svelte, etc.)
-2. Integration Plugins (GitHub, GitLab, Linear, Asana, etc.)
-3. Notification Plugins (Slack, Discord, Teams, etc.)
-4. Workflow Plugins (custom automations)
+### Technical Goals
+- 10+ official framework adapters
+- < 2 minutes setup time
+- 99.9% uptime SLA
+- 100+ GitHub stars (month 1)
 
-Plugin API requirements:
-- Declarative plugin manifest
-- Hooks system para lifecycle events
-- Configuration schema validation
-- Permissions y security sandboxing
-- Hot-reload para development
+### Business Goals  
+- 1000+ developers (open source)
+- 100+ paying customers (6 months)
+- $10k MRR (year 1)
+- 50+ community plugins
 
-Marketplace features:
-- Plugin discovery y search
-- Ratings y reviews
-- Automatic updates
-- Usage analytics
-- Revenue sharing para community plugins
+### Community Goals
+- Active Discord (500+ developers)
+- 4.5+ stars documentation rating
+- 5+ conference talks
+- 50+ community tutorials/blogs
 
-Entrega: Plugin system completo + marketplace MVP.
-```
-
-### 💼 BUSINESS_STRATEGIST
-
-**Rol**: Modelo de negocio y go-to-market
-**Responsabilidades**:
-
-- Pricing strategy (freemium model)
-- Feature tiers definition
-- Launch strategy y marketing
-- Competition analysis
-
-**Prompt de activación**:
-
-```
-Actúa como BUSINESS_STRATEGIST. Define la estrategia comercial completa de IssueFlow.
-
-Pricing tiers sugeridos:
-- Free: 1 proyecto, basic integrations, community support
-- Pro ($29/mes): 10 proyectos, all integrations, priority support
-- Agency ($99/mes): unlimited projects, white-label, analytics
-- Enterprise (custom): SSO, compliance, dedicated support
-
-Go-to-market strategy:
-1. Open source launch (GitHub, Product Hunt)
-2. Developer community building (Discord, Reddit)
-3. Content marketing (blogs, tutorials)
-4. Partnership con tool providers (Vercel, Netlify)
-
-Competition analysis:
-- Direct: Canny, UserVoice, Feedbear
-- Indirect: Linear, GitHub Issues, Notion
-- Differentiation: dev-first, multi-stack, automation
-
-Entrega: Business plan completo con pricing, marketing strategy y roadmap.
-```
-
-### 🌐 COMMUNITY_BUILDER
-
-**Rol**: Open source strategy y ecosystem
-**Responsabilidades**:
-
-- Documentation website
-- Community guidelines
-- Contribution workflows
-- Developer relations
-
-**Prompt de activación**:
-
-```
-Actúa como COMMUNITY_BUILDER. Construye la estrategia de comunidad para IssueFlow.
-
-Documentation requirements:
-- Getting started guides por stack
-- API reference completa
-- Plugin development guides
-- Best practices y use cases
-- Video tutorials y demos
-
-Community building:
-- GitHub repo structure y guidelines
-- Discord server setup
-- Contributing guidelines
-- Code of conduct
-- Issue templates y PR templates
-
-Developer relations:
-- Launch strategy (Product Hunt, HN, Reddit)
-- Conference talks y workshops
-- Partnerships con influencers dev
-- Case studies de early adopters
-
-Entrega: Documentación completa + community strategy + launch plan.
-```
-
----
-
-## 📋 ROADMAP DE DESARROLLO
-
-### 🎯 Milestone 1: MVP Open Source (Mes 1-2)
-
-1. **FRAMEWORK_ARCHITECT**: Core architecture + basic multi-tenant
-2. **SDK_DEVELOPER**: REST API + JavaScript SDK
-3. **CLI_ENGINEER**: Basic CLI tool
-4. **PLUGIN_SYSTEM_ARCHITECT**: React + Vue adapters
-
-### 🚀 Milestone 2: Community Launch (Mes 3)
-
-1. **COMMUNITY_BUILDER**: Documentation + GitHub setup
-2. **BUSINESS_STRATEGIST**: Pricing strategy + landing page
-3. **CLI_ENGINEER**: Production-ready CLI
-4. **PLUGIN_SYSTEM_ARCHITECT**: 5+ official adapters
-
-### 💰 Milestone 3: SaaS Launch (Mes 4-5)
-
-1. **FRAMEWORK_ARCHITECT**: Hosted version + billing
-2. **SDK_DEVELOPER**: GraphQL API + webhooks
-3. **BUSINESS_STRATEGIST**: Go-to-market execution
-4. **PLUGIN_SYSTEM_ARCHITECT**: Marketplace beta
-
-### 🏢 Milestone 4: Enterprise Ready (Mes 6+)
-
-1. **FRAMEWORK_ARCHITECT**: Enterprise features (SSO, compliance)
-2. **BUSINESS_STRATEGIST**: Enterprise sales strategy
-3. **PLUGIN_SYSTEM_ARCHITECT**: Marketplace full launch
-4. **COMMUNITY_BUILDER**: Conferences + partnerships
-
----
-
-## 🎯 SUCCESS METRICS
-
-### Technical
-
-- [ ] **10+ official adapters** (React, Vue, Astro, Next, Nuxt, Svelte, etc.)
-- [ ] **100+ GitHub stars** en el primer mes
-- [ ] **< 2 min setup time** con CLI tool
-- [ ] **99.9% uptime** para hosted version
-
-### Business
-
-- [ ] **1000+ developers** usando la versión open source
-- [ ] **100+ paying customers** en los primeros 6 meses
-- [ ] **$10k MRR** al final del primer año
-- [ ] **50+ community plugins** en marketplace
-
-### Community
-
-- [ ] **Active Discord** con 500+ developers
-- [ ] **Documentation** rated 4.5+ stars
-- [ ] **5+ conference talks** en eventos dev
-- [ ] **50+ blog posts/tutorials** de la comunidad
-
----
-
-## 🚀 COMANDOS DE ACTIVACIÓN
+## 🚀 Quick Start para Development
 
 ```bash
-# Arquitecto del Framework
-Claude actúa como FRAMEWORK_ARCHITECT según CLAUDE.md
+# Clonar y setup
+git clone https://github.com/yosnap/issueflow.git
+cd issueflow
+npm install
 
-# Ingeniero CLI
-Claude actúa como CLI_ENGINEER según CLAUDE.md
+# Development mode
+npm run dev
 
-# Desarrollador SDK
-Claude actúa como SDK_DEVELOPER según CLAUDE.md
+# Build all packages  
+npm run build
 
-# Arquitecto Sistema Plugins
-Claude actúa como PLUGIN_SYSTEM_ARCHITECT según CLAUDE.md
-
-# Estratega de Negocio
-Claude actúa como BUSINESS_STRATEGIST según CLAUDE.md
-
-# Constructor de Comunidad
-Claude actúa como COMMUNITY_BUILDER según CLAUDE.md
+# Run tests
+npm test
 ```
 
----
-
-## 💡 DIFERENCIACIÓN COMPETITIVA
-
-### vs Canny/UserVoice
-
-❌ Generic feedback tools
-✅ **Dev-first** con integración nativa a GitHub/ClickUp
-
-### vs Linear/GitHub Issues
-
-❌ Require technical knowledge from clients
-✅ **Client-friendly** interface + dev automation
-
-### vs Custom Solutions
-
-❌ Build from scratch each time
-✅ **Framework reusable** across projects y stacks
+Ver [CONTRIBUTING.md](./CONTRIBUTING.md) para guidelines completas de desarrollo.
 
 ---
 
-## 🎯 VALUE PROPOSITION ÚNICO
+**Value Proposition**: *"El único framework que conecta clientes no-técnicos directamente con tu workflow de desarrollo, automatizando todo el ciclo desde reporte hasta resolución."*
 
-> **"El único framework que conecta clientes no-técnicos directamente con tu workflow de desarrollo, automatizando todo el ciclo desde reporte hasta resolución."**
-
-**For Developers**: Setup en 5 minutos, works con cualquier stack
-**For Clients**: Interface simple, tracking automático, notificaciones
-**For Business**: Profesionaliza comunicación, reduce support overhead
-
----
-
-## 🏁 NEXT STEPS
-
-1. **Validar** la idea con potential users (agencias, freelancers)
-2. **Empezar** con FRAMEWORK_ARCHITECT para core MVP
-3. **Crear** landing page para early access signups
-4. **Build** community desde día 1 (GitHub + Discord)
-5. **Launch** open source version para feedback
-
-¿Estás listo para construir el próximo framework que revolucione cómo los developers manejan feedback de clientes? 🚀
+**Status**: v0.1.0 - Fundación completa, listo para development 🚀
