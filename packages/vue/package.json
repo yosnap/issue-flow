@@ -51,7 +51,7 @@
     "vue": ">=3.3.0"
   },
   "dependencies": {
-    "@issueflow/sdk": "workspace:*"
+    "@issueflow/sdk": "^0.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.6",

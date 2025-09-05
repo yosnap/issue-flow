@@ -51,7 +51,7 @@
     "tslib": ">=2.0.0"
   },
   "dependencies": {
-    "@issueflow/sdk": "workspace:*"
+    "@issueflow/sdk": "^0.2.0"
   },
   "devDependencies": {
     "@angular/animations": "^17.0.0",

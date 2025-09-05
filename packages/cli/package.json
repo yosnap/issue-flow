@@ -1,6 +1,6 @@
 {
   "name": "@issueflow/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "IssueFlow CLI - Setup and manage IssueFlow in your projects",
   "main": "dist/index.js",
   "bin": {
@@ -25,8 +25,8 @@
   "author": "IssueFlow Team",
   "license": "MIT",
   "dependencies": {
-    "@issueflow/core": "workspace:*",
-    "@issueflow/sdk": "workspace:*",
+    "@issueflow/core": "^0.2.0",
+    "@issueflow/sdk": "^0.2.0",
     "commander": "^11.1.0",
     "inquirer": "^9.2.11",
     "chalk": "^5.3.0",

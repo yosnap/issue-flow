@@ -17,7 +17,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@issueflow/sdk": "workspace:*"
+    "@issueflow/sdk": "^0.2.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
