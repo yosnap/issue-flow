@@ -8,14 +8,14 @@
 
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { fade, scale } from 'svelte/transition';
-  import { getIssueFlowStore } from '../stores/issueflow.js';
+  import { getIssueFlowStore } from '../stores/issueflow';
   import { 
     clickOutside, 
     escapeKey, 
     focusTrap, 
     portal, 
     autoResize 
-  } from '../lib/actions.js';
+  } from '../lib/actions';
   import type {
     IssueFlowConfig,
     IssueFlowWidgetProps,
@@ -24,7 +24,7 @@
     IssuePriority,
     FormField,
     IssueSubmissionResult,
-  } from '../types/index.js';
+  } from '../types/index';
 
   // Props
   export let config: IssueFlowConfig | undefined = undefined;
