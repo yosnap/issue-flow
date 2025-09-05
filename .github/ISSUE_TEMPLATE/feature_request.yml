@@ -1,0 +1,81 @@
+name: ✨ Feature Request
+description: Sugiere una nueva funcionalidad para IssueFlow
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ¡Gracias por sugerir una nueva funcionalidad! 💡
+        
+        Las mejores feature requests incluyen un problema claro que resolver y una solución propuesta.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Tipo de Feature
+      description: ¿Qué tipo de funcionalidad estás sugiriendo?
+      options:
+        - Nueva integración (GitHub, ClickUp, etc.)
+        - Nuevo framework adapter
+        - Mejora de UI/UX
+        - Nueva funcionalidad del CLI
+        - API enhancement
+        - Dashboard feature
+        - Documentación
+        - Otro
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: ¿Cuál es el problema que esto resolvería?
+      description: Una descripción clara del problema o limitación actual
+      placeholder: "Como developer/agencia, tengo el problema de..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solución Propuesta
+      description: Una descripción clara de lo que quieres que pase
+      placeholder: "Me gustaría poder..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas Consideradas
+      description: ¿Hay otras formas de resolver este problema?
+      placeholder: "También consideré..."
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridad
+      description: ¿Qué tan importante es esta funcionalidad para ti?
+      options:
+        - Baja (nice to have)
+        - Media (sería útil)
+        - Alta (necesito esto)
+        - Crítica (bloqueante)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: implementation
+    attributes:
+      label: Implementación
+      options:
+        - label: Estaría dispuesto a implementar esta funcionalidad
+        - label: Estaría dispuesto a ayudar con testing
+        - label: Estaría dispuesto a escribir documentación
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Contexto Adicional
+      description: Agrega cualquier otro contexto, ejemplos, o mockups aquí

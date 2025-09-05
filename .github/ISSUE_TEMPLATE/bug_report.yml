@@ -1,0 +1,96 @@
+name: 🐛 Bug Report
+description: Reporta un bug para ayudarnos a mejorar IssueFlow
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ¡Gracias por tomarte el tiempo de reportar un bug! 🙏
+        
+        Por favor completa la información a continuación para ayudarnos a reproducir y solucionar el problema.
+
+  - type: input
+    id: version
+    attributes:
+      label: Versión de IssueFlow
+      description: ¿Qué versión de IssueFlow estás usando?
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      description: ¿En qué framework estás usando IssueFlow?
+      options:
+        - React
+        - Vue
+        - Next.js
+        - Nuxt
+        - Astro
+        - WordPress
+        - Vanilla JS
+        - Otro
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción del Bug
+      description: Una descripción clara y concisa del problema
+      placeholder: Describe qué está pasando y qué esperabas que pasara
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Pasos para Reproducir
+      description: Pasos para reproducir el comportamiento
+      placeholder: |
+        1. Ir a '...'
+        2. Click en '...'
+        3. Hacer scroll hacia '...'
+        4. Ver error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamiento Esperado
+      description: Una descripción clara de lo que esperabas que pasara
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots/Videos
+      description: Si es aplicable, agrega screenshots para ayudar a explicar el problema
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Entorno
+      description: |
+        Ejemplos:
+          - OS: macOS Big Sur 11.2.3
+          - Browser: Chrome 89.0.4389.82
+          - Node.js: 16.14.0
+          - Package Manager: npm 8.5.0
+      value: |
+        - OS: 
+        - Browser: 
+        - Node.js: 
+        - Package Manager: 
+      render: markdown
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Contexto Adicional
+      description: Agrega cualquier otro contexto sobre el problema aquí
