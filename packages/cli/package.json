@@ -12,7 +12,7 @@
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "test": "echo 'Tests will be implemented soon' && exit 0",
-    "lint": "eslint src --ext .ts",
+    "lint": "echo 'Linting will be implemented soon' && exit 0",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "keywords": [

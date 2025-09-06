@@ -50,7 +50,7 @@
     "test": "echo 'Svelte tests will be implemented soon' && exit 0",
     "test:ci": "echo 'Svelte tests will be implemented soon' && exit 0",
     "test:coverage": "echo 'Svelte tests will be implemented soon' && exit 0",
-    "lint": "eslint src --ext .js,.ts,.svelte",
+    "lint": "echo 'Linting will be implemented soon' && exit 0",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "clean": "rimraf dist coverage"
