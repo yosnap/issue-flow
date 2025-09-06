@@ -48,7 +48,7 @@
     "test": "jest --passWithNoTests",
     "test:ci": "jest --ci --passWithNoTests",
     "test:coverage": "jest --coverage --passWithNoTests",
-    "lint": "echo 'Linting will be implemented soon' && exit 0",
+    "lint": "next lint",
     "type-check": "tsc --noEmit",
     "clean": "rimraf dist coverage"
   },
