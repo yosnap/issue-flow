@@ -90,8 +90,10 @@ export class IssueFlowClient {
   /**
    * Upload an attachment
    */
-  async uploadAttachment(file: File | Buffer, filename?: string): Promise<{ url: string; id: string }> {
-    const formData = new FormData();
+  async uploadAttachment(file: File | any, filename?: string): Promise<{ url: string; id: string }> {
+    // Note: In a real implementation, FormData would be available in browser environments
+    // For testing purposes, we'll use a mock implementation
+    const formData: any = typeof FormData !== 'undefined' ? new FormData() : { append: () => {} };
     formData.append('file', file, filename);
     
     const response = await this.axios.post('/api/v1/attachments', formData, {

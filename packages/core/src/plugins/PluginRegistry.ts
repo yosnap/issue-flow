@@ -6,14 +6,11 @@ import {
   IssueFlowPlugin,
   PluginEvent
 } from '../types/plugin.types';
-import { EventEmitter } from 'events';
-
-export class PluginRegistry extends EventEmitter {
+export class PluginRegistry {
   private plugins: Map<string, IssueFlowPlugin> = new Map();
   private pluginConfigs: Map<string, Plugin> = new Map();
 
   constructor() {
-    super();
   }
 
   /**
@@ -55,7 +52,6 @@ export class PluginRegistry extends EventEmitter {
       this.pluginConfigs.set(pluginId, pluginRecord);
 
       console.log(`Plugin ${plugin.name} registered successfully`);
-      this.emit('plugin.registered', { plugin: pluginRecord });
 
     } catch (error) {
       console.error(`Failed to register plugin ${plugin.name}`, error);
@@ -86,7 +82,6 @@ export class PluginRegistry extends EventEmitter {
       pluginRecord.errorMessage = undefined;
 
       console.log(`Plugin ${plugin.name} activated`);
-      this.emit('plugin.activated', { plugin: pluginRecord });
 
     } catch (error) {
       pluginRecord.status = PluginStatus.ERROR;
@@ -120,7 +115,6 @@ export class PluginRegistry extends EventEmitter {
       pluginRecord.errorMessage = undefined;
 
       console.log(`Plugin ${plugin.name} deactivated`);
-      this.emit('plugin.deactivated', { plugin: pluginRecord });
 
     } catch (error) {
       pluginRecord.status = PluginStatus.ERROR;

@@ -40,6 +40,7 @@ export interface Issue {
   labels: string[];
   attachments: Attachment[];
   comments: Comment[];
+  environment?: string;
   resolvedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -135,4 +136,13 @@ export interface IssueConnection {
     currentPage: number;
     totalPages: number;
   };
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  description?: string;
+  organizationId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
