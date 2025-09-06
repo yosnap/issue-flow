@@ -11,6 +11,7 @@ import { RedisService } from './services/redis.service';
 import { AuthService } from './services/auth.service';
 import { TenantService } from './services/tenant.service';
 import { PluginService } from './services/plugin.service';
+import { PluginRegistry } from './plugins/PluginRegistry';
 import { Logger } from './utils/logger';
 import type { AppConfig } from './config';
 
@@ -25,6 +26,7 @@ export class IssueFlowApp {
   public auth: AuthService;
   public tenant: TenantService;
   public plugin: PluginService;
+  public pluginRegistry: PluginRegistry;
 
   constructor(config: AppConfig) {
     this.config = config;
@@ -45,6 +47,7 @@ export class IssueFlowApp {
     this.auth = new AuthService(this.database, this.redis, this.logger, config);
     this.tenant = new TenantService(this.database, this.redis, this.logger);
     this.plugin = new PluginService(this.logger, config);
+    this.pluginRegistry = new PluginRegistry();
   }
 
   /**
@@ -65,6 +68,12 @@ export class IssueFlowApp {
     
     // Set plugin API services
     this.plugin.setServices(this.database, this.redis);
+    
+    // Initialize new plugin registry
+    this.logger.info('Initializing new plugin registry...');
+    
+    // Register built-in plugins (example)
+    await this.registerBuiltInPlugins();
     
     this.logger.info('✅ Core services initialized');
   }
@@ -178,5 +187,43 @@ export class IssueFlowApp {
       uptime: Math.floor(process.uptime()),
       responseTime: Date.now() - startTime
     };
+  }
+
+  /**
+   * Register built-in plugins
+   */
+  private async registerBuiltInPlugins(): Promise<void> {
+    try {
+      // Example: Register GitHub plugin if configured
+      // const githubPlugin = new GitHubPlugin();
+      // await this.pluginRegistry.registerPlugin(githubPlugin, {
+      //   token: this.config.integrations?.github?.token,
+      //   owner: this.config.integrations?.github?.owner,
+      //   repo: this.config.integrations?.github?.repo
+      // });
+      // await this.pluginRegistry.activatePlugin('github-integration@1.0.0');
+      
+      this.logger.info('Built-in plugins registered');
+    } catch (error) {
+      this.logger.error('Failed to register built-in plugins:', error);
+    }
+  }
+
+  /**
+   * Emit event to plugins
+   */
+  async emitPluginEvent(event: any): Promise<void> {
+    try {
+      await this.pluginRegistry.emitToPlugins(event);
+    } catch (error) {
+      this.logger.error('Failed to emit plugin event:', error);
+    }
+  }
+
+  /**
+   * Get plugin registry for external access
+   */
+  getPluginRegistry(): PluginRegistry {
+    return this.pluginRegistry;
   }
 }
