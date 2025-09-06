@@ -56,7 +56,7 @@
     "clean": "rimraf dist coverage"
   },
   "peerDependencies": {
-    "svelte": ">=4.0.0"
+    "svelte": ">=5.0.0"
   },
   "dependencies": {
     "@issueflow/sdk": "^0.2.0"
@@ -78,7 +78,7 @@
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^3.0.3",
     "rimraf": "^5.0.0",
-    "svelte": "^4.2.7",
+    "svelte": "^5.0.0",
     "svelte-check": "^3.5.2",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
