@@ -6,13 +6,18 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     setupFiles: [],
+    pool: 'forks',
   },
   define: {
     global: 'globalThis',
+    'process.env.NODE_ENV': '"test"',
   },
   resolve: {
     alias: {
       crypto: 'node:crypto',
     },
+  },
+  esbuild: {
+    target: 'node18',
   },
 });
